@@ -11,8 +11,19 @@ class Product extends Model
 
     protected $fillable = ['name', 'description', 'price'];
 
+    protected $appends = ['stock'];
+
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'categories_products');
+    }
+
+    public function buy()
+    {
+        return $this->hasMany(BuyProduct::class);
+    }
+    public function getStockAttribute()
+    {
+        return $this->buy->sum('quantity');
     }
 }

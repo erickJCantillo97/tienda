@@ -1,13 +1,15 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BuyController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SaleController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    if(auth()->check()){
+    if (auth()->check()) {
         return redirect()->route('dashboard');
     }
     return Inertia::render('Auth/Login');
@@ -34,4 +36,6 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('products', ProductController::class);
     Route::resource('categories', CategoryController::class);
+    Route::resource('buys', BuyController::class);
+    Route::resource('sales', SaleController::class);
 });

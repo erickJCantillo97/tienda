@@ -32,7 +32,7 @@ const passwordErrorMessage: Ref<string> = ref('');
 
 function submit(): void {
     form.post('/register', {
-        
+
     });
 };
 </script>
@@ -40,11 +40,12 @@ function submit(): void {
 <template>
 
     <Head title="HelpSmart - Login" />
-    
+
     <div class="min-h-screen flex flex-col items-center justify-center bg-blue-600">
         <div class="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
-            <span class="font-medium self-center text-xl sm:text-2xl text-center text-gray-800">Registro en Tienda HelpSmart</span>
-            
+            <span class="font-medium self-center text-xl sm:text-2xl text-center text-gray-800">Registro en Tienda
+                HelpSmart</span>
+
             <form @submit.prevent="submit" class="space-y-4 flex flex-col mt-4">
                 <div class="flex flex-col">
                     <label for="name" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Nombre</label>
@@ -64,7 +65,7 @@ function submit(): void {
                     </div>
                 </div>
                 <div class="flex flex-col">
-                  
+
                     <label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Correo</label>
                     <div class="relative items-center">
                         <div class="flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
@@ -100,7 +101,8 @@ function submit(): void {
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <label for="password" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Confirmar Contraseña</label>
+                    <label for="password" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Confirmar
+                        Contraseña</label>
                     <div class="relative items-center">
                         <div class="flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
                             <span>
@@ -120,7 +122,7 @@ function submit(): void {
                 <div class="flex w-full">
                     <button type="submit"
                         class="flex items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-blue-600 hover:bg-blue-700 rounded py-2 w-full transition duration-150 ease-in">
-                        <span class="mr-2 uppercase">Entrar</span>
+                        <span class="mr-2 ">Registro</span>
                         <span>
                             <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -130,6 +132,18 @@ function submit(): void {
                     </button>
                 </div>
             </form>
+            <div class="text-center mt-2">
+                <div class="relative flex py-5 items-center">
+                    <div class="flex-grow border-t border-gray-400"></div>
+                    <span class="flex-shrink mx-4 text-gray-400">Si ya tiene una cuenta</span>
+                    <div class="flex-grow border-t border-gray-400"></div>
+                </div>
+            </div>
+            <div class="flex justify-center mt-2 gap-x-4">
+                <a href="login"
+                    class="border p-1 px-3 hover:text-white hover:bg-blue-800 rounded-lg border-blue-800 text-blue-800">Inciar
+                    Sesión</a>
+            </div>
         </div>
     </div>
 </template>

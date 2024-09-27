@@ -27,7 +27,7 @@ const form: InertiaForm<{
 const passwordErrorMessage: Ref<string> = ref('');
 
 function submit(): void {
-    form.transform((data: {email: string, password:string, remember:boolean}) => ({
+    form.transform((data: { email: string, password: string, remember: boolean }) => ({
         ...data,
         remember: form.remember ? 'on' : '',
     })).post('/login', {
@@ -42,7 +42,7 @@ function submit(): void {
 <template>
 
     <Head title="HelpSmart - Login" />
-    
+
     <div class="min-h-screen flex flex-col items-center justify-center bg-blue-600">
         <div class="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
             <span class="font-medium self-center text-xl sm:text-2xl text-center text-gray-800">Tienda HelpSmart</span>
@@ -112,6 +112,17 @@ function submit(): void {
                     </button>
                 </div>
             </form>
+            <div class="text-center mt-2">
+                <div class="relative flex py-5 items-center">
+                    <div class="flex-grow border-t border-gray-400"></div>
+                    <span class="flex-shrink mx-4 text-gray-400">Si no tiene una cuenta</span>
+                    <div class="flex-grow border-t border-gray-400"></div>
+                </div>
+            </div>
+            <div class="flex justify-center mt-2 gap-x-4">
+                <a href="register"
+                    class="border p-1 px-3 hover:text-white hover:bg-blue-800 rounded-lg border-blue-800 text-blue-800">Registro</a>
+            </div>
         </div>
     </div>
 </template>

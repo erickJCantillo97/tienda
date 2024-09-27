@@ -1,18 +1,18 @@
 <template>
     <AppLayout>
 
-        <Head title="Productos" />
+        <Head title="Compras" />
         <div class="px-4 sm:px-6 lg:px-8">
 
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">Productos</h1>
-                    <p class="mt-2 text-sm text-gray-700">Aqui esta el listado de todos los productos.</p>
+                    <h1 class="text-base font-semibold leading-6 text-gray-900">Compras</h1>
+                    <p class="mt-2 text-sm text-gray-700">Aqui esta el listado de todas las compras.</p>
                 </div>
                 <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
                     <button type="button" @click="show = true"
-                        class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Nuevo
-                        Producto</button>
+                        class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Nueva
+                        Compra</button>
                 </div>
             </div>
             <div class="mt-8 flow-root">
@@ -24,8 +24,6 @@
                                     <th scope="col"
                                         class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">
                                         Nombre</th>
-                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                        Stock</th>
                                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                         Precio</th>
                                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
@@ -42,9 +40,6 @@
                                     <td
                                         class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
                                         {{ product.name }}</td>
-                                    <td
-                                        class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
-                                        {{ product.stock }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{
                                         formatCurrency(product.price) }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{
@@ -66,15 +61,14 @@
             <Modal v-model:visible="show">
 
                 <div class="flex flex-col gap-y-4">
-                    <h2 class="text-xl font-bold">Agregar Productos</h2>
+                    <h2 class="text-xl font-bold">Agregar Compra</h2>
                     <form @submit="submitForm" class="space-y-4">
-                        <Input v-model="formProduct.name" label="Nombre" type="text" required />
-                        <Input v-model="formProduct.price" label="Precio" type="number" required />
-                        <Input v-model="formProduct.description" label="Descripción" type="text" required />
+                        <Input v-model="formBuy.supplier_name" label="Nombre del Proveedor" type="text" required />
+                        <Input v-model="formBuy.supplier_email" label="Email del Proveedor" type="number" required />
                         <div class="flex flex-col">
-                            <label for="" class="text-sm font-bold mb-1">Categorias</label>
+                            <label for="" class="text-sm font-bold mb-1">Seleccionar Productos</label>
                             <multiselect :multiple="true" :close-on-select="false" label="name" track-by="name"
-                                v-model="formProduct.categories" :options="categories" :preserve-search="true"
+                                v-model="formBuy.products" :options="products" :preserve-search="true"
                                 placeholder="Seleccionar Categorias"></multiselect>
                         </div>
                         <button type="submit"
@@ -89,7 +83,7 @@
 import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { Head, Link, InertiaForm, useForm } from '@inertiajs/vue3'
-import { useProductsStore } from "@/Stores/products.js";
+import { useBuyStore } from "@/Stores/buy.js";
 import { storeToRefs } from "pinia";
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Modal from '@/Components/Modal.vue';
@@ -101,28 +95,37 @@ interface Category {
     id: number
 }
 
+interface Product {
+    name: string,
+    price: number,
+    categories: Array<Category>,
+}
 
+interface Buy {
+    supplier_name: string;
+    supplier_email: string;
+    products: Array<Product>;
+}
 
-
-const store = useProductsStore();
-const { formProduct } = storeToRefs(store);
+const store = useBuyStore();
+const { formBuy } = storeToRefs(store);
 
 const show: Ref<boolean> = ref(false);
 
 const props = defineProps<{
     products: Array<any>,
-    categories: Array<Category>
+    buys: Array<Buy>
 }>();
 
 function submitForm(event: Event): void {
     event.preventDefault();
-    formProduct.value.transform((data: { name: string, price: number, categories: Array<Category> }) => ({
+    formBuy.value.transform((data: { name: string, price: number, categories: Array<Category> }) => ({
         ...data,
         categories: data.categories.map((category: Category) => category.id)
     })).post('products', {
         onSuccess: () => {
             show.value = false;
-            formProduct.value.reset();
+            formBuy.value.reset();
         }
     });
 }
