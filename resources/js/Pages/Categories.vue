@@ -51,7 +51,7 @@
             <Modal v-model:visible="show">
 
                 <div class="flex flex-col gap-y-4">
-                    <h2 class="text-xl font-bold">Agregar Productos</h2>
+                    <h2 class="text-xl font-bold">Agregar Categoria de producto</h2>
                     <form @submit="save" class="space-y-4">
                         <Input v-model="formProduct.name" label="Nombre" />
                         <button type="submit" class="text-green-800 border border-green-800 p-2 rounded-md shadow-md w-full hover:bg-green-800 hover:text-white">Enviar</button>

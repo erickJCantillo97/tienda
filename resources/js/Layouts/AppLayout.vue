@@ -135,18 +135,20 @@
     ChartPieIcon,
     Cog6ToothIcon,
     DocumentDuplicateIcon,
-    FolderIcon,
     HomeIcon,
     UsersIcon,
     XMarkIcon,
+    DocumentTextIcon,
+    
   } from '@heroicons/vue/24/outline'
+  
   import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 import { Link } from '@inertiajs/vue3';
   
   const navigation = [
     { name: 'Dashboard', href: 'dashboard', icon: HomeIcon, current: true },
-    { name: 'Productos', href: 'products', icon: UsersIcon, current: false },
-    { name: 'Categorias', href: 'categories', icon: FolderIcon, current: false },
+    { name: 'Categorias', href: 'categories', icon: DocumentTextIcon, current: false },
+    { name: 'Productos', href: 'products', icon: DocumentDuplicateIcon, current: false },
     { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
     { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
     { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },

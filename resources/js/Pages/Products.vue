@@ -35,13 +35,13 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white">
-                                <tr class="even:bg-gray-50">
+                                <tr v-for="product in products" class="even:bg-gray-50">
                                     <td
                                         class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
-                                        {{ 'HOla' }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ 'HOla' }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ 'HOla' }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ 'HOla' }}</td>
+                                        {{ product.name }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ formatCurrency(product.price) }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ product.categories.map(category => category.name).join(', ') }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ product.description }}</td>
                                     <td
                                         class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
                                         <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit<span
@@ -58,16 +58,13 @@
 
                 <div class="flex flex-col gap-y-4">
                     <h2 class="text-xl font-bold">Agregar Productos</h2>
-                    <form class="space-y-4">
-                       <Input v-model="formProduct.name" label="Nombre" type="text"/>
-                       <Input v-model="formProduct.price" label="Precio" type="number"/>
-                       <Input v-model="formProduct.description" label="Descripción" type="text"/>
+                    <form @submit="submitForm" class="space-y-4">
+                       <Input v-model="formProduct.name" label="Nombre" type="text" required/>
+                       <Input v-model="formProduct.price" label="Precio" type="number" required/>
+                       <Input v-model="formProduct.description" label="Descripción" type="text" required/>
                        <div class="flex flex-col">
                             <label for="" class="text-sm font-bold mb-1">Categorias</label>
-                            <select multiple name="test[]" size="1" id="" class="py-2 px-1.5 rounded-md shadow border-b border ring-1 ring-blue-300 focus:ring focus:ring-blue-300">
-                                 <option value="" disabled selected>Selecciona una categoria</option>
-                                 <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
-                            </select>
+                            <multiselect :multiple="true" :close-on-select="false" label="name" track-by="name"  v-model="formProduct.categories" :options="categories"  :preserve-search="true" placeholder="Seleccionar Categorias"></multiselect>
                        </div>
                        <button type="submit" class="text-green-800 border border-green-800 p-2 rounded-md shadow-md w-full hover:bg-green-800 hover:text-white">Enviar</button>
                     </form>
@@ -85,6 +82,7 @@ import { storeToRefs } from "pinia";
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Modal from '@/Components/Modal.vue';
 import Input from '@/Components/Input.vue';
+import Multiselect from 'vue-multiselect'
 
 interface Category {
   name: string,
@@ -104,6 +102,22 @@ const props = defineProps<{
     categories: Array<Category>
 }>();
 
+function submitForm(event: Event): void {
+    event.preventDefault();
+    formProduct.value.transform((data: {name: string, price:number, categories:Array<Category>}) => ({
+        ...data,
+        categories: data.categories.map((category: Category) => category.id)
+    })).post('products', {
+        onSuccess: () => {
+            show.value = false;
+            formProduct.value.reset();
+        }
+    });
+}
+
+function formatCurrency(value: number): string {
+    return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
+}
 // const props = defineProps({
 //     products: {
 //         type: Array,

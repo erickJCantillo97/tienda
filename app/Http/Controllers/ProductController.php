@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::get();
+        $products = Product::with('categories')->get();
         $categories = Category::orderBy('name')->get();
         return inertia('Products', [
             'products' => $products,
@@ -35,7 +35,10 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        // dd($request->all());
+        $categories = $request->input('categories');
+        unset($request['categories']);
+        $product = Product::create($request->validated())->categories()->sync($categories);
     }
 
     /**

@@ -9,7 +9,7 @@ export const useProductsStore = defineStore('product', () => {
         price: number;
         categories: Array<number>;
     }> = useForm({
-        name: "Producto 1",
+        name: "",
         price: 0,
         description: '',
         categories: [],
