@@ -94,6 +94,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { Head, Link, InertiaForm, useForm } from '@inertiajs/vue3'
 import { useSaleStore } from "@/Stores/sale.js";
+import { storeToRefs } from 'pinia';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Modal from '@/Components/Modal.vue';
 import Input from '@/Components/Input.vue';
